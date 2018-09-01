@@ -6,14 +6,11 @@
 # @File    : Spider.py
 # @Software: PyCharm
 
-from EasySpider.Request import Request
-import asyncio
-from EasySpider.utils import get_logger
-import time
-from multiprocessing import cpu_count, freeze_support, Pool, Queue
-from EasySpider.Task import BaseTask
 
-import os, time, random
+from MpsiSpider.utils import get_logger
+from multiprocessing import cpu_count, freeze_support, Pool, Queue
+from MpsiSpider.Task import BaseTask
+
 from multiprocessing import Process, Pool, Queue, Manager
 
 

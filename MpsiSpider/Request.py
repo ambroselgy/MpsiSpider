@@ -16,7 +16,7 @@ try:
 except ImportError:
     pass
 
-from EasySpider.utils import get_logger
+from MpsiSpider.utils import get_logger
 from .Response import Response
 
 

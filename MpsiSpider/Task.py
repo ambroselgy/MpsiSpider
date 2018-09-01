@@ -1,4 +1,4 @@
-from EasySpider.Request import Request
+from MpsiSpider.Request import Request
 import asyncio
 
 
@@ -23,7 +23,7 @@ class BaseTask(object):
     def get_body(self, queue: object) -> object:
         while 1:
             try:
-                res = queue.get(block=True,timeout=3)
+                res = queue.get(block=True, timeout=3)
                 print(res[0:3])
             except:
                 break
