@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 
-
 class Response(object):
     """
     Return a friendly response
@@ -55,7 +54,6 @@ class Response(object):
     @property
     def status(self):
         return self._status
-
 
     def __str__(self):
         return f'<Response url[{self._res_type}]: {self._url} status:{self._status} metadata:{self._metadata}>'

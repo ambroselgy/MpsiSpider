@@ -11,12 +11,14 @@ import chardet
 
 try:
     import uvloop
+
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 except ImportError:
     pass
 
 from EasySpider.utils import get_logger
 from .Response import Response
+
 
 class Request(object):
     """
