@@ -22,7 +22,7 @@ setup(
     packages=find_packages(),
     platforms=["all"],
     install_requires=['aiohttp'],
-    url='https://github.com/daijiangtian/MpsiSpider',
+    url='https://github.com/daijiangtian/MpsiSpider/blob/master/README.md',
     classifiers=[
         'Programming Language :: Python',
         'Programming Language :: Python :: 3.6',
