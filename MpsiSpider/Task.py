@@ -9,10 +9,16 @@ class BaseTask(object):
         'timehout': 5,
     }
 
-    def __init__(self, urls, ):
+    def __init__(self, urls):
         self.urls = urls
 
     def put_body(self, queue, urls=None):
+        """
+
+        :param queue:
+        :param urls:
+        :return:
+        """
         if urls is None:
             urls = self.urls
         loop = asyncio.get_event_loop()
@@ -26,6 +32,11 @@ class BaseTask(object):
 
     @classmethod
     def get_body(self, queue: object) -> object:
+        """
+
+        :param queue:
+        :return:
+        """
         log = get_logger('Task')
         urls = ['end']
         asyncio.set_event_loop(asyncio.new_event_loop())
