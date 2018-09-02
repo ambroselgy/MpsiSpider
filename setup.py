@@ -13,7 +13,6 @@ setup(
     description=(
         'A asyncchronous,multiprocessing spider famework'
     ),
-    long_description=read('README.md'),
     author='Woe1997',
     author_email='413122031@qq.com',
     maintainer='Woe1997',
