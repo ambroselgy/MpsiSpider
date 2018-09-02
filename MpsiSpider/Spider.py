@@ -45,26 +45,30 @@ class Spider(metaclass=Meta):
 
         for field in self._fields:
             urls = self._fields[field].urls
-            index = (len(urls))
-            temp = 0
+
             queue = Manager().Queue()
-
-            for i in range(self.pool_config['requests_pool']):
-                if i != ((self.pool_config['requests_pool'] - 1)):
-                    count = int(index / self.pool_config['requests_pool'] * (i + 1))
-                else:
-                    count = index
-                pool.apply_async(self._fields[field].put_body, (queue, urls[temp:count]))
-                temp = count
-                if temp == index:
+            while urls:
+                if urls[-1] == 'end':
                     break
+                index = (len(urls))
+                temp = 0
+                for i in range(self.pool_config['requests_pool']):
+                    if i != ((self.pool_config['requests_pool'] - 1)):
+                        count = int(index / self.pool_config['requests_pool'] * (i + 1))
+                    else:
+                        count = index
+                    pool.apply_async(self._fields[field].put_body, (queue, urls[temp:count]))
+                    temp = count
+                    if temp == index:
+                        break
 
-            for i in range(self.pool_config['parse_pool']):
-                pool.apply_async(self._fields[field].get_body, kwds={'queue': queue})
+                urls = []
+                for i in range(self.pool_config['parse_pool']):
+                    pool.apply_async(self._fields[field].get_body, kwds={'queue': queue}, callback=urls.extend)
 
-            pool.close()
-            pool.join()  # 进程池中进程执行完毕后再关闭，如果注释，那么程序直接关闭。
-            pool = Pool(self.pool_config['pool_count'])
+                pool.close()
+                pool.join()  # 进程池中进程执行完毕后再关闭，如果注释，那么程序直接关闭。
+                pool = Pool(self.pool_config['pool_count'])
 
         pool.close()
         pool.join()
