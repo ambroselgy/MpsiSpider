@@ -17,7 +17,7 @@ except ImportError:
     pass
 
 from MpsiSpider.utils import get_logger
-from .Response import Response
+from MpsiSpider.Response import Response
 
 
 class Request(object):
