@@ -8,11 +8,8 @@
 
 
 from MpsiSpider.utils import get_logger
-from multiprocessing import cpu_count, freeze_support, Pool, Queue
+from multiprocessing import cpu_count, Manager, Pool
 from MpsiSpider.Task import BaseTask
-
-from multiprocessing import Process, Pool, Queue, Manager
-
 
 class Meta(type):
 
