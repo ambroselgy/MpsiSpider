@@ -9,9 +9,9 @@ def read(fname):
 
 setup(
     name='MpsiSpider',
-    version='0.0.3',
+    version='0.0.1',
     description=(
-        'A asyncchronous,multiprocessing scraping famework'
+        'A asyncchronous,multiprocessing spider famework'
     ),
     long_description=read('README.md'),
     author='Woe1997',
