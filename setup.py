@@ -9,7 +9,7 @@ def read(fname):
 
 setup(
     name='MpsiSpider',
-    version='0.0.2',
+    version='0.0.4',
     description=(
         'A asyncchronous,multiprocessing spider famework'
     ),
