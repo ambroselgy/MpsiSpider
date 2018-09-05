@@ -8,7 +8,7 @@
 
 
 from MpsiSpider.utils import get_logger
-from multiprocessing import cpu_count, Manager, Pool
+from multiprocessing import cpu_count, Manager, Pool ,freeze_support
 from MpsiSpider.Task import BaseTask
 
 class Meta(type):
@@ -19,14 +19,16 @@ class Meta(type):
                         isinstance(object, BaseTask)})  ##
         attrs['_fields'] = _fields
 
-        if 'pool_config' in attrs:
-            pool_config = attrs['pool_count']
+        if 'pool_count' in attrs:
+            pool_count = attrs['pool_count']
         else:
-            pool_config = {
-                'pool_count': cpu_count(),
-                'requests_pool': int(cpu_count() / 3),
-                'parse_pool': int(cpu_count() / 3 * 2)
-            }
+            pool_count =  cpu_count()
+
+        pool_config = {
+            'pool_count': pool_count,
+            'requests_pool': int(pool_count / 3),
+            'parse_pool': int(pool_count / 3 * 2)
+        }
         attrs['pool_config'] = pool_config
         new_class = super(Meta, cls).__new__(cls, name, bases, attrs)
         return new_class
@@ -42,7 +44,7 @@ class Spider(metaclass=Meta):
 
         for field in self._fields:
             urls = self._fields[field].urls
-
+            freeze_support()
             queue = Manager().Queue()
             while urls:
                 if urls[-1] == 'end':

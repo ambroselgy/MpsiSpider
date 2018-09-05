@@ -25,7 +25,7 @@ class BaseTask(object):
 
         async def request(url):
             res = await Request(url=url).fetch()
-            queue.put_nowait(res.body)
+            queue.put_nowait(res)
 
         task = [asyncio.ensure_future(request(url=url)) for url in urls if url != 'end']
         loop.run_until_complete(asyncio.wait(task))
@@ -70,7 +70,4 @@ class BaseTask(object):
         :param res:
         :return: urls
         """
-        urls = []
-
-
-        return urls
+        pass

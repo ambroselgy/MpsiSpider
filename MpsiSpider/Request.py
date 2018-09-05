@@ -3,11 +3,8 @@
 
 import asyncio
 
-from inspect import iscoroutinefunction
-
 import aiohttp
 import async_timeout
-import chardet
 
 try:
     import uvloop
@@ -17,13 +14,9 @@ except ImportError:
     pass
 
 from MpsiSpider.utils import get_logger
-from MpsiSpider.Response import Response
 
 
 class Request(object):
-    """
-    Request class for each request
-    """
     name = 'Request'
 
     # Default config
@@ -50,14 +43,12 @@ class Request(object):
         if self.method not in self.METHOD:
             raise ValueError('%s method is not supported' % self.method)
 
-        self.callback = callback
         self.metadata = metadata if metadata is not None else {}
         self.request_session = request_session
         if request_config is None:
             self.request_config = self.REQUEST_CONFIG
         else:
             self.request_config = request_config
-        self.res_type = res_type
         self.kwargs = kwargs
 
         self.close_request_session = False
@@ -90,15 +81,8 @@ class Request(object):
                 async with self.current_request_func as resp:
                     res_status = resp.status
                     assert res_status in [200, 201]
-                    if self.res_type == 'bytes':
-                        data = await resp.read()
-                    elif self.res_type == 'json':
-                        data = await resp.json()
-                    else:
-                        content = await resp.read()
-                        charset = chardet.detect(content)
-                        data = content.decode(charset['encoding'])
-                    res_cookies, res_headers, res_history = resp.cookies, resp.headers, resp.history
+                    data = await resp.read()
+
         except Exception as e:
             res_headers = {}
             res_history = ()
@@ -115,31 +99,7 @@ class Request(object):
         if self.close_request_session:
             await self.request_session.close()
 
-        response = Response(url=self.url,
-                            body=data,
-                            metadata=self.metadata,
-                            res_type=self.res_type,
-                            cookies=res_cookies,
-                            headers=res_headers,
-                            history=res_history,
-                            status=res_status)
-        return response
-
-    async def fetch_callback(self, sem):
-        async with sem:
-            res = await self.fetch()
-        if self.callback is not None:
-            try:
-                if iscoroutinefunction(self.callback):
-                    callback_res = await self.callback(res)
-                else:
-                    callback_res = self.callback(res)
-            except Exception as e:
-                self.logger.error(e)
-                callback_res = None
-        else:
-            callback_res = None
-        return callback_res, res
+        return data
 
     def __str__(self):
         return "<%s %s>" % (self.method, self.url)
