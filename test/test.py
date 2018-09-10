@@ -17,7 +17,7 @@ class testTask(BaseTask):
 
 if __name__ == '__main__':
     class aab(Spider):
-        test = testTask(urls=["http://www.baidu.com"])
+        test = testTask(urls=["http://www.baidu.com","http://www.baidu.com","http://www.baidu.com","http://www.baidu.com","http://www.baidu.com","http://www.baidu.com","http://www.baidu.com","http://www.baidu.com","http://www.baidu.com","http://www.baidu.com","http://www.baidu.com","http://www.baidu.com","http://www.baidu.com","http://www.baidu.com","http://www.baidu.com"])
 
 
     a = aab()
