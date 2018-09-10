@@ -8,11 +8,19 @@
 
 
 from MpsiSpider.Spider import Spider
-from MpsiSpider.Task import BaseTask
+from MpsiSpider.Consumer import BaseTask
+import os
+
+
+class testTask(BaseTask):
+    pass
+
 if __name__ == '__main__':
     class aab(Spider):
-        test = BaseTask(urls=['http://www.baidu.com','http://www.baidu.com','http://www.baidu.com','http://www.baidu.com','http://www.baidu.com','http://www.baidu.com','http://www.baidu.com','http://www.baidu.com','http://www.baidu.com','http://www.baidu.com','http://www.baidu.com','http://www.baidu.com','http://www.baidu.com','http://www.baidu.com','http://www.baidu.com','http://www.baidu.com'])
-        pool_count = 4
-    tt = aab()
-    tt.start()
+        test = testTask(urls=["http://www.baidu.com"])
+
+
+    a = aab()
+    a.start()
+
 

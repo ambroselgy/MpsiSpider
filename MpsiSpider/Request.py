@@ -29,15 +29,11 @@ class Request(object):
     METHOD = ['GET', 'POST']
 
     def __init__(self, url: str, method: str = 'GET', *,
-                 callback=None,
                  metadata: dict = None,
                  request_config: dict = None,
                  request_session=None,
-                 res_type: str = 'text',
                  **kwargs):
-        """
-        Initialization parameters
-        """
+
         self.url = url
         self.method = method.upper()
         if self.method not in self.METHOD:
@@ -54,7 +50,6 @@ class Request(object):
         self.close_request_session = False
         self.logger = get_logger(name=self.name)
         self.retry_times = self.request_config.get('RETRIES', 3)
-        # self.setting = SettingsWrapper()
 
     @property
     def current_request_func(self):
@@ -84,8 +79,6 @@ class Request(object):
                     data = await resp.read()
 
         except Exception as e:
-            res_headers = {}
-            res_history = ()
             res_status = 0
             data, res_cookies = None, None
             self.logger.error(f"<Error: {self.url} {res_status} {str(e)}>")
